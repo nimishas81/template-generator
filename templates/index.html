@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Template Generator</title>
+<link rel="stylesheet" href="/static/css/theme.css">
+<link rel="stylesheet" href="/static/fonts/installed.css">
+<link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+
+<!-- ============ home ============ -->
+<div class="home" id="homeView">
+  <header class="home-top">
+    <div class="home-brand">Template<span>Generator</span></div>
+    <div class="home-tag">Upload the decks you already have. Generate new ones that look and read like them.</div>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button data-tab="generate" class="active">Generate</button>
+    <button data-tab="projects">Projects <span class="count" id="projCount"></span></button>
+    <button data-tab="templates">Templates</button>
+    <button data-tab="kits">Brand kits</button>
+    <div class="kit-current" id="kitCurrent"></div>
+  </nav>
+
+  <section class="panel" data-panel="generate">
+    <div class="panel-head">
+      <h2>Start from your material</h2>
+      <p>Paste an outline, a narrative, or a full document. Claude structures it into
+         slides in the selected brand kit's layouts and voice. It won't invent numbers
+         you didn't give it.</p>
+    </div>
+    <div id="genErr"></div>
+    <div class="field">
+      <textarea id="brief" rows="9" placeholder="Paste your source material here, or describe the deck:
+
+&quot;A 10-slide investor update covering Q3 traction, the memory-layer launch, and what we need for seed.&quot;"></textarea>
+    </div>
+    <div class="row" style="margin-bottom:16px">
+      <div style="flex:1.4">
+        <label>Brand kit</label>
+        <select class="kit-select" data-kit-select></select>
+      </div>
+      <div>
+        <label>Slides <span class="muted">(0 = let Claude decide)</span></label>
+        <input type="number" id="count" value="0" min="0" max="40">
+      </div>
+      <div style="flex:2">
+        <label>Direction <span class="muted">(optional)</span></label>
+        <input type="text" id="notes" placeholder="e.g. investor tone, lead with the market">
+      </div>
+    </div>
+    <div class="row" style="justify-content:flex-start">
+      <button class="primary" id="genBtn">Generate deck</button>
+      <button id="blankBtn">Start blank</button>
+    </div>
+  </section>
+
+  <section class="panel" data-panel="projects" hidden>
+    <div class="panel-head">
+      <h2>Your decks</h2>
+      <p>Everything you've made. Stored as plain JSON in <code>decks/</code>.</p>
+    </div>
+    <div id="projects"></div>
+  </section>
+
+  <section class="panel" data-panel="templates" hidden>
+    <div class="panel-head">
+      <h2>Templates</h2>
+      <p>The slide patterns in a brand kit. Click a deck to start one, or a slide to
+         start from just that pattern. You can also drop any of these into an open deck
+         from the inspector, or save a slide you've made back into its kit.</p>
+      <div class="row" style="max-width:420px;margin-top:14px">
+        <div><label>Brand kit</label><select class="kit-select" data-kit-select></select></div>
+      </div>
+    </div>
+    <div id="templates"></div>
+  </section>
+
+  <section class="panel" data-panel="kits" hidden>
+    <div class="panel-head">
+      <h2>Brand kits</h2>
+      <p>A kit is a brand's palette, fonts, logo, writing voice and slide templates.
+         Every deck is generated and rendered through one. Edit a kit and every deck
+         using it follows.</p>
+    </div>
+
+    <div class="kit-upload">
+      <div class="kit-upload-copy">
+        <h3>Build a kit from your decks</h3>
+        <p>Upload one or more decks you've already made: a PDF export works best, slide
+           screenshots work, and a .pptx gives the exact theme colours and fonts. Claude
+           reads them and builds the palette, fonts, voice and one template per slide
+           pattern. Takes a minute or two.</p>
+      </div>
+      <div id="kitUpErr"></div>
+      <label class="drop" id="kitDrop">
+        <input type="file" id="kitFiles" multiple
+               accept=".pdf,.pptx,.png,.jpg,.jpeg,.webp,application/pdf,image/*">
+        <span id="kitDropText">Drop PDF, PPTX or slide images here, or click to choose</span>
+      </label>
+      <div class="row" style="margin:12px 0">
+        <div><label>Kit name <span class="muted">(optional)</span></label>
+          <input type="text" id="kitName" placeholder="e.g. Acme"></div>
+        <div style="flex:2"><label>Notes <span class="muted">(optional)</span></label>
+          <input type="text" id="kitNotes" placeholder="e.g. the accent is the coral, not the teal; ignore the appendix"></div>
+      </div>
+      <div class="row" style="justify-content:flex-start">
+        <button class="primary" id="kitBuild">Build kit</button>
+        <label class="btn-like">Import a shared kit…
+          <input type="file" id="kitImport" accept=".zip,.json" hidden></label>
+      </div>
+    </div>
+
+    <div id="kits"></div>
+  </section>
+</div>
+
+<!-- ============ editor ============ -->
+<div class="app" id="editorView" hidden>
+  <div class="topbar">
+    <div class="brand" id="home" title="All decks">Decks</div>
+    <input class="deck-title" id="deckTitle" placeholder="Untitled deck">
+    <div class="spacer"></div>
+    <div class="status" id="status"></div>
+    <button id="newSlideBtn">+ Slide</button>
+    <div class="menu" id="exportMenu">
+      <button class="primary" id="exportBtn">Export ▾</button>
+      <div class="menu-list">
+        <button data-export="pdf">PDF</button>
+        <button data-export="png">PNGs (.zip)</button>
+        <button data-export="html">Standalone HTML</button>
+        <div class="hint">Exports render through the same page you're editing.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="rail">
+      <h3>Slides</h3>
+      <div id="thumbs"></div>
+      <button id="addSlide" style="width:192px">+ Add slide</button>
+    </div>
+
+    <div class="canvas" id="canvas">
+      <div class="stage" id="stage"></div>
+    </div>
+
+    <div class="inspector">
+      <div class="insp-tabs">
+        <button data-itab="design" class="active">Design</button>
+        <button data-itab="chat">Chat</button>
+      </div>
+      <div class="insp-body" id="inspector"></div>
+      <div class="insp-body chat-panel" id="chatPanel" hidden>
+        <div class="chat-log" id="chatLog"></div>
+        <div class="chat-compose">
+          <textarea id="chatInput" rows="3"
+            placeholder="Ask for changes — copy, colours, fonts.
+
+e.g. make the palette warmer and use Fraunces for headings
+tighten every card to one sentence
+turn slide 4 into a stats slide"></textarea>
+          <div class="chat-actions">
+            <button id="chatClear" title="Clear the conversation">Clear</button>
+            <button class="primary" id="chatSend">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- template picker used from inside the editor -->
+<div class="sheet" id="insertSheet" hidden>
+  <div class="sheet-inner">
+    <div class="sheet-head">
+      <h2>Insert a template slide</h2>
+      <button id="insertClose">Close</button>
+    </div>
+    <div id="insertList"></div>
+  </div>
+</div>
+
+<!-- kit editor -->
+<div class="sheet" id="kitSheet" hidden>
+  <div class="sheet-inner kit-editor">
+    <div class="sheet-head">
+      <h2 id="kitEdTitle">Edit kit</h2>
+      <div class="row" style="flex:none;gap:8px">
+        <span class="status" id="kitEdStatus"></span>
+        <button id="kitEdClose">Close</button>
+        <button class="primary" id="kitEdSave">Save kit</button>
+      </div>
+    </div>
+    <div id="kitEdBody"></div>
+  </div>
+</div>
+
+<script src="/static/js/layouts.js"></script>
+<script src="/static/js/kits.js"></script>
+<script src="/static/js/editor.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Deck</title>
+<link rel="stylesheet" href="/static/css/theme.css">
+<link rel="stylesheet" href="/static/fonts/installed.css">
+<style>
+  html, body { margin: 0; padding: 0; background: #fff; }
+  #deck { display: flex; flex-direction: column; }
+
+  /* One slide per printed page, at exact slide dimensions. */
+  @page { size: 1920px 1080px; margin: 0; }
+  @media print {
+    .slide { break-after: page; page-break-after: always; }
+    .slide:last-child { break-after: auto; page-break-after: auto; }
+  }
+</style>
+</head>
+<body>
+<div id="deck"></div>
+
+<script src="/static/js/layouts.js"></script>
+<script>
+  const DECK = {{ deck | safe }};
+  setEditable(false);
+  setBrand(DECK);
+  applyTheme(DECK);
+  document.getElementById("deck").innerHTML = renderDeck(DECK);
+</script>
+</body>
+</html>

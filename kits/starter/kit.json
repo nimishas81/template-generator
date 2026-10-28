@@ -1,0 +1,809 @@
+{
+  "id": "starter",
+  "name": "Starter",
+  "description": "Neutral navy and blue with an amber second accent. DM Sans over Inter. A clean base to duplicate and make your own.",
+  "brand": {
+    "wordmark": "yourbrand",
+    "logo": ""
+  },
+  "theme": {
+    "colors": {},
+    "fonts": {
+      "display": "DM Sans",
+      "body": "Inter"
+    }
+  },
+  "voice": "- Headlines are claims, not topics: \"Outputs multiplied but outcomes didn't\", never \"Overview of the problem\".\n- Eyebrows are short section names in title case: \"The Problem\", \"How it works\".\n- Card body copy runs 1 to 3 short sentences; if it needs more, it is two cards.\n- Numbers are written as figures with units: \"$50mn\", \"3x\", \"40%\".\n- Direct and concrete. No emoji, no buzzwords, no exclamation marks.",
+  "slides": [
+    {
+      "id": "cover",
+      "name": "Cover",
+      "category": "Opening",
+      "note": "Wordmark, a one-line claim, and the positioning sentence underneath.",
+      "slide": {
+        "layout": "cover",
+        "ground": "",
+        "eyebrow": "",
+        "title": "The claim your deck is arguing for",
+        "dek": "One sentence on who this is for and why it matters now.",
+        "variant": "mint",
+        "shape": "",
+        "returnLabel": "",
+        "items": [],
+        "footer": "",
+        "footerAccent": ""
+      }
+    },
+    {
+      "id": "insight",
+      "name": "Insight statement",
+      "category": "Problem",
+      "note": "Kicker, a two-line headline, and a long dek. No body — the point is the sentence.",
+      "slide": {
+        "layout": "section",
+        "ground": "",
+        "eyebrow": "The Insight",
+        "title": "The thing everyone missed, stated plainly",
+        "dek": "Two lines of consequence. What follows from the claim above, and why it hasn't been solved by what already exists.",
+        "variant": "mint",
+        "shape": "",
+        "returnLabel": "",
+        "items": [],
+        "footer": "",
+        "footerAccent": ""
+      }
+    },
+    {
+      "id": "statement-brown",
+      "name": "Full-bleed statement",
+      "category": "Solution",
+      "note": "Brown slide for the one definitional sentence — what the thing actually is.",
+      "slide": {
+        "layout": "section",
+        "ground": "brown",
+        "eyebrow": "The Solution",
+        "title": "The product, defined in one sentence.",
+        "dek": "One sentence on the job it goes deep on.",
+        "variant": "mint",
+        "shape": "",
+        "returnLabel": "",
+        "items": [],
+        "footer": "",
+        "footerAccent": ""
+      }
+    },
+    {
+      "id": "problem-2x2",
+      "name": "Problem 2×2",
+      "category": "Problem",
+      "note": "Four filled brown cards with uppercase labels. The workhorse problem slide.",
+      "slide": {
+        "layout": "cards",
+        "ground": "",
+        "eyebrow": "Problem Statement",
+        "title": "The headline as a claim, not a topic",
+        "dek": "One or two sentences framing what the four cards below have in common.",
+        "variant": "brown",
+        "shape": "",
+        "returnLabel": "",
+        "items": [
+          {
+            "label": "POSITIONING",
+            "body": "What breaks first, described concretely.",
+            "bullets": [],
+            "value": "",
+            "group": ""
+          },
+          {
+            "label": "QUALIFICATION",
+            "body": "The second failure, and who feels it.",
+            "bullets": [],
+            "value": "",
+            "group": ""
+          },
+          {
+            "label": "TARGETING",
+            "body": "The third, with the mechanism named.",
+            "bullets": [],
+            "value": "",
+            "group": ""
+          },
+          {
+            "label": "MEASUREMENT",
+            "body": "The fourth, and what it costs.",
+            "bullets": [],
+            "value": "",
+            "group": ""
+          }
+        ],
+        "footer": "",
+        "footerAccent": ""
+      }
+    },
+    {
+      "id": "themes-numbered",
+      "name": "Numbered themes",
+      "category": "Problem",
+      "note": "Two numbered themes, each holding its own supporting cards.",
+      "slide": {
+        "layout": "numbered",
+        "ground": "",
+        "eyebrow": "Problem Statement",
+        "title": "Two named themes with evidence under each",
+        "dek": "",
+        "variant": "outline",
+        "shape": "",
+        "returnLabel": "",
+        "items": [
+          {
+            "label": "First point",
+            "body": "Evidence for the first theme.",
+            "bullets": [],
+            "value": "",
+            "group": "The first theme"
+          },
+          {
+            "label": "Second point",
+            "body": "More evidence.",
+            "bullets": [],
+            "value": "",
+            "group": "The first theme"
+          },
+          {
+            "label": "Third point",
+            "body": "Evidence for the second theme.",
+            "bullets": [],
+            "value": "",
+            "group": "The second theme"
+          },
+          {
+            "label": "Fourth point",
+            "body": "More evidence.",
+            "bullets": [],
+            "value": "",
+            "group": "The second theme"
+          }
+        ],
+        "footer": "",
+        "footerAccent": ""
+      }
+    },
+    {
+      "id": "definitions",
+      "name": "Term → definition",
+      "category": "Solution",
+      "note": "Green pills mapped to plain-English definitions. Good for layers or taxonomies.",
+      "slide": {
+        "layout": "pillrows",
+        "ground": "",
+        "eyebrow": "The Solution",
+        "title": "The layers, named and defined",
+        "dek": "One sentence on why these layers exist.",
+        "variant": "mint",
+        "shape": "",
+        "returnLabel": "",
+        "items": [
+          {
+            "label": "Layer one",
+            "body": "What it is, in plain words.",
+            "bullets": [],
+            "value": "",
+            "group": ""
+          },
+          {
+            "label": "Layer two",
+            "body": "What it adds on top of the first.",
+            "bullets": [],
+            "value": "",
+            "group": ""
+          },
+          {
+            "label": "Layer three",
+            "body": "Who it serves and how.",
+            "bullets": [],
+            "value": "",
+            "group": ""
+          },
+          {
+            "label": "Layer four",
+            "body": "What it makes possible.",
+            "bullets": [],
+            "value": "",
+            "group": ""
+          }
+        ],
+        "footer": "",
+        "footerAccent": ""
+      }
+    },
+    {
+      "id": "columns-badges",
+      "name": "Columns with stat badges",
+      "category": "Market",
+      "note": "Three bulleted columns, each pinned with a green number. The opportunity slide.",
+      "slide": {
+        "layout": "columns",
+        "ground": "",
+        "eyebrow": "The Opportunity",
+        "title": "Three reasons the market is moving",
+        "dek": "",
+        "variant": "outline",
+        "shape": "",
+        "returnLabel": "",
+        "items": [
+          {
+            "label": "The buyers are there",
+            "body": "",
+            "bullets": [
+              "First supporting fact with the number in it.",
+              "Second supporting fact."
+            ],
+            "value": "XXmn",
+            "group": ""
+          },
+          {
+            "label": "The opportunity is live",
+            "body": "",
+            "bullets": [
+              "First supporting fact.",
+              "Second supporting fact."
+            ],
+            "value": "Xx",
+            "group": ""
+          },
+          {
+            "label": "The platform is underused",
+            "body": "",
+            "bullets": [
+              "First supporting fact.",
+              "Second supporting fact."
+            ],
+            "value": "XX%",
+            "group": ""
+          }
+        ],
+        "footer": "",
+        "footerAccent": ""
+      }
+    },
+    {
+      "id": "market-stats",
+      "name": "Market sizing",
+      "category": "Market",
+      "note": "Big numerals on a shared baseline, with a green takeaway under a rule.",
+      "slide": {
+        "layout": "stats",
+        "ground": "",
+        "eyebrow": "The Market",
+        "title": "Where we start and how far it goes",
+        "dek": "",
+        "variant": "mint",
+        "shape": "",
+        "returnLabel": "",
+        "items": [
+          {
+            "label": "TAM",
+            "body": "What the total number covers.",
+            "bullets": [],
+            "value": "$XXbn",
+            "group": ""
+          },
+          {
+            "label": "Beachhead",
+            "body": "How the beachhead is calculated.",
+            "bullets": [],
+            "value": "$XXXmn",
+            "group": ""
+          },
+          {
+            "label": "1-year target",
+            "body": "What share that represents.",
+            "bullets": [],
+            "value": "$Xmn",
+            "group": ""
+          }
+        ],
+        "footer": "The one sentence a reader should leave with.",
+        "footerAccent": "green"
+      }
+    },
+    {
+      "id": "moat-flow",
+      "name": "Moat flow",
+      "category": "Moat",
+      "note": "Three brown stages joined by arrows, with a bold closing line.",
+      "slide": {
+        "layout": "flow",
+        "ground": "",
+        "eyebrow": "The Moat",
+        "title": "How the advantage compounds",
+        "dek": "One sentence on what feeds the loop.",
+        "variant": "brown",
+        "shape": "",
+        "returnLabel": "",
+        "items": [
+          {
+            "label": "What gets captured",
+            "body": "The raw input, and when it is captured.",
+            "bullets": [],
+            "value": "",
+            "group": ""
+          },
+          {
+            "label": "What it becomes",
+            "body": "How it is stored and why that matters.",
+            "bullets": [],
+            "value": "",
+            "group": ""
+          },
+          {
+            "label": "What that buys",
+            "body": "The result competitors cannot copy.",
+            "bullets": [],
+            "value": "",
+            "group": ""
+          }
+        ],
+        "footer": "Both compound, and neither can be copied.",
+        "footerAccent": ""
+      }
+    },
+    {
+      "id": "flywheel",
+      "name": "Flywheel loop",
+      "category": "Moat",
+      "note": "Six steps closing back on themselves. For a learning loop or flywheel.",
+      "slide": {
+        "layout": "cycle",
+        "ground": "",
+        "eyebrow": "The Flywheel",
+        "title": "Every pass makes the next one sharper",
+        "dek": "One sentence on what the loop accumulates.",
+        "variant": "mint",
+        "shape": "",
+        "returnLabel": "",
+        "items": [
+          {
+            "label": "Win a customer",
+            "body": "",
+            "bullets": [],
+            "value": "",
+            "group": ""
+          },
+          {
+            "label": "Learn from their usage",
+            "body": "",
+            "bullets": [],
+            "value": "",
+            "group": ""
+          },
+          {
+            "label": "Improve the product",
+            "body": "",
+            "bullets": [],
+            "value": "",
+            "group": ""
+          },
+          {
+            "label": "Deliver better results",
+            "body": "",
+            "bullets": [],
+            "value": "",
+            "group": ""
+          },
+          {
+            "label": "Earn referrals",
+            "body": "",
+            "bullets": [],
+            "value": "",
+            "group": ""
+          },
+          {
+            "label": "Win the next customer faster",
+            "body": "",
+            "bullets": [],
+            "value": "",
+            "group": ""
+          }
+        ],
+        "footer": "",
+        "footerAccent": ""
+      }
+    },
+    {
+      "id": "expansion-map",
+      "name": "Expansion mapping",
+      "category": "Moat",
+      "note": "What you learn on the left, where it gets reused on the right. Dashed = not yet live.",
+      "slide": {
+        "layout": "mapping",
+        "ground": "",
+        "eyebrow": "The Expansion Path",
+        "title": "Learnings in one channel extend to the rest",
+        "dek": "One sentence on why the learning transfers.",
+        "variant": "mint",
+        "shape": "",
+        "returnLabel": "",
+        "items": [
+          {
+            "label": "Capability one",
+            "body": "",
+            "bullets": [],
+            "value": "",
+            "group": "What it learns"
+          },
+          {
+            "label": "Capability two",
+            "body": "",
+            "bullets": [],
+            "value": "",
+            "group": "What it learns"
+          },
+          {
+            "label": "Capability three",
+            "body": "",
+            "bullets": [],
+            "value": "",
+            "group": "What it learns"
+          },
+          {
+            "label": "Capability four",
+            "body": "",
+            "bullets": [],
+            "value": "",
+            "group": "What it learns"
+          },
+          {
+            "label": "Market today",
+            "body": "",
+            "bullets": [],
+            "value": "solid",
+            "group": "Where it gets used"
+          },
+          {
+            "label": "Next market",
+            "body": "",
+            "bullets": [],
+            "value": "ghost",
+            "group": "Where it gets used"
+          },
+          {
+            "label": "Adjacent market",
+            "body": "",
+            "bullets": [],
+            "value": "ghost",
+            "group": "Where it gets used"
+          },
+          {
+            "label": "Later market",
+            "body": "",
+            "bullets": [],
+            "value": "ghost",
+            "group": "Where it gets used"
+          }
+        ],
+        "footer": "",
+        "footerAccent": ""
+      }
+    },
+    {
+      "id": "ask-ledger",
+      "name": "The ask",
+      "category": "Ask",
+      "note": "Hires on the left, allocations on the right, both with amounts. Footnotes supported.",
+      "slide": {
+        "layout": "ledger",
+        "ground": "",
+        "eyebrow": "The Ask",
+        "title": "The round, the amount, and the runway",
+        "dek": "",
+        "variant": "mint",
+        "shape": "",
+        "returnLabel": "",
+        "items": [
+          {
+            "label": "Founding Engineer",
+            "body": "What they own · start month",
+            "bullets": [],
+            "value": "$XXXK",
+            "group": "Team"
+          },
+          {
+            "label": "Founding Engineer 2",
+            "body": "What they own · start month",
+            "bullets": [],
+            "value": "$XXXK",
+            "group": "Team"
+          },
+          {
+            "label": "Operations Lead",
+            "body": "What they own · start month",
+            "bullets": [],
+            "value": "$XXXK",
+            "group": "Team"
+          },
+          {
+            "label": "",
+            "body": "Where the founder sits and through what milestone.",
+            "bullets": [],
+            "value": "",
+            "group": "Team"
+          },
+          {
+            "label": "Team payroll",
+            "body": "",
+            "bullets": [],
+            "value": "$XXXK",
+            "group": "Allocations"
+          },
+          {
+            "label": "Founder — living + office",
+            "body": "",
+            "bullets": [],
+            "value": "$XXXK",
+            "group": "Allocations"
+          },
+          {
+            "label": "Infrastructure and compute",
+            "body": "",
+            "bullets": [],
+            "value": "$XXXK",
+            "group": "Allocations"
+          },
+          {
+            "label": "GTM and pilot acquisition",
+            "body": "",
+            "bullets": [],
+            "value": "$XXXK",
+            "group": "Allocations"
+          },
+          {
+            "label": "Legal, compliance, buffer",
+            "body": "",
+            "bullets": [],
+            "value": "$XXXK",
+            "group": "Allocations"
+          },
+          {
+            "label": "",
+            "body": "How the milestones were set, and the evidence for the pace.",
+            "bullets": [],
+            "value": "",
+            "group": "Allocations"
+          }
+        ],
+        "footer": "The runway, fully costed. What lands when.",
+        "footerAccent": "green"
+      }
+    },
+    {
+      "id": "diagram-chain",
+      "name": "Pipeline diagram",
+      "category": "Diagram",
+      "note": "A straight left-to-right workflow. Node colour marks who does the step — the legend builds itself from the kinds you use.",
+      "slide": {
+        "layout": "diagram",
+        "ground": "",
+        "eyebrow": "How it works",
+        "title": "The workflow, end to end",
+        "dek": "One sentence on what goes in and what comes out.",
+        "variant": "mint",
+        "shape": "chain",
+        "returnLabel": "",
+        "items": [
+          {
+            "label": "Source",
+            "body": "what starts it",
+            "bullets": [],
+            "value": "INPUT",
+            "group": "input"
+          },
+          {
+            "label": "Enrich",
+            "body": "adds context",
+            "bullets": [],
+            "value": "AUTOMATION",
+            "group": "automation"
+          },
+          {
+            "label": "Draft",
+            "body": "writes per item",
+            "bullets": [],
+            "value": "AGENT",
+            "group": "agent"
+          },
+          {
+            "label": "Approve",
+            "body": "you decide",
+            "bullets": [],
+            "value": "HUMAN",
+            "group": "human"
+          },
+          {
+            "label": "Publish",
+            "body": "ships out",
+            "bullets": [],
+            "value": "AUTOMATION",
+            "group": "automation"
+          }
+        ],
+        "footer": "",
+        "footerAccent": ""
+      }
+    },
+    {
+      "id": "diagram-loop",
+      "name": "Feedback loop",
+      "category": "Diagram",
+      "note": "A cycle that wraps onto two rows and draws a return path. For anything where the output reshapes the next run.",
+      "slide": {
+        "layout": "diagram",
+        "ground": "",
+        "eyebrow": "The loop",
+        "title": "Each cycle reshapes the next",
+        "dek": "One sentence on what accumulates between runs.",
+        "variant": "mint",
+        "shape": "loop",
+        "returnLabel": "outcomes reshape the next cycle's inputs",
+        "items": [
+          {
+            "label": "Source list",
+            "body": "",
+            "bullets": [],
+            "value": "INPUT",
+            "group": "input"
+          },
+          {
+            "label": "Enrich",
+            "body": "adds context",
+            "bullets": [],
+            "value": "AUTO + AGENT",
+            "group": "agent"
+          },
+          {
+            "label": "Score",
+            "body": "rules and filters",
+            "bullets": [],
+            "value": "AUTOMATION",
+            "group": "automation"
+          },
+          {
+            "label": "Personalise",
+            "body": "writes per row",
+            "bullets": [],
+            "value": "AGENT",
+            "group": "agent"
+          },
+          {
+            "label": "Send",
+            "body": "",
+            "bullets": [],
+            "value": "AUTOMATION",
+            "group": "automation"
+          },
+          {
+            "label": "Performance",
+            "body": "replies, meetings",
+            "bullets": [],
+            "value": "OUTPUT",
+            "group": "output"
+          },
+          {
+            "label": "Evaluate",
+            "body": "what worked? reconfigure",
+            "bullets": [],
+            "value": "HUMAN",
+            "group": "human"
+          }
+        ],
+        "footer": "The loop compounds — but only through the person closing it.",
+        "footerAccent": "green"
+      }
+    },
+    {
+      "id": "closing",
+      "name": "Closing card",
+      "category": "Closing",
+      "note": "Dark closing slide with contact details.",
+      "slide": {
+        "layout": "section",
+        "ground": "brown",
+        "eyebrow": "Thank you",
+        "title": "you@yourcompany.com",
+        "dek": "yourcompany.com",
+        "variant": "mint",
+        "shape": "",
+        "returnLabel": "",
+        "items": [],
+        "footer": "",
+        "footerAccent": ""
+      }
+    }
+  ],
+  "decks": [
+    {
+      "id": "pre-seed",
+      "name": "Pre-seed deck",
+      "category": "Deck",
+      "note": "A 13-slide fundraising arc: problem → insight → solution → market → moat → ask.",
+      "slide_ids": [
+        "cover",
+        "problem-2x2",
+        "themes-numbered",
+        "insight",
+        "statement-brown",
+        "definitions",
+        "columns-badges",
+        "market-stats",
+        "moat-flow",
+        "flywheel",
+        "expansion-map",
+        "ask-ledger",
+        "closing"
+      ]
+    },
+    {
+      "id": "narrative",
+      "name": "Short narrative",
+      "category": "Deck",
+      "note": "Six slides for an update or a partner conversation — no market or ask.",
+      "slide_ids": [
+        "cover",
+        "problem-2x2",
+        "insight",
+        "definitions",
+        "moat-flow",
+        "closing"
+      ]
+    },
+    {
+      "id": "sales",
+      "name": "Sales deck",
+      "category": "Deck",
+      "note": "Eight slides for a prospect: their pain → what it costs → the product → proof → pricing → next step.",
+      "slide_ids": [
+        "cover",
+        "problem-2x2",
+        "insight",
+        "statement-brown",
+        "definitions",
+        "columns-badges",
+        "ask-ledger",
+        "closing"
+      ]
+    },
+    {
+      "id": "board-update",
+      "name": "Board update",
+      "category": "Deck",
+      "note": "Seven slides: headline metrics → what shipped → what's not working → the loop → what we need.",
+      "slide_ids": [
+        "cover",
+        "market-stats",
+        "themes-numbered",
+        "problem-2x2",
+        "flywheel",
+        "ask-ledger",
+        "closing"
+      ]
+    },
+    {
+      "id": "case-study",
+      "name": "Case study",
+      "category": "Deck",
+      "note": "Six slides on one piece of work: the client, the problem, what you did, and the result.",
+      "slide_ids": [
+        "cover",
+        "insight",
+        "problem-2x2",
+        "moat-flow",
+        "market-stats",
+        "closing"
+      ]
+    }
+  ],
+  "source": {
+    "files": []
+  },
+  "updated": 1793177032.206369
+}

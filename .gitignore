@@ -1,0 +1,21 @@
+# secrets
+.env
+
+# your own work stays on your machine
+decks/
+kits/*
+!kits/starter/
+static/img/art/
+
+# fonts installed on demand from Google Fonts
+static/fonts/installed.css
+static/fonts/*.woff2
+!static/fonts/rP2*.woff2
+!static/fonts/UcC*.woff2
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store

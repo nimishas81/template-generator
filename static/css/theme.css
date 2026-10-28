@@ -1,0 +1,783 @@
+@import url("/static/fonts/fonts.css");
+
+/* ============================================================
+   Base design system
+   These are the fallback values. Every deck renders through a brand kit
+   (kits/<id>/kit.json) whose colours and fonts override these tokens, so
+   edit the kit, not this file, to restyle a brand.
+
+   Token names are historical (they come from the first palette this was
+   built on). The kit editor and kits.py map them to plain roles:
+   --green is the accent, --brown-card the filled card, and so on.
+   Canvas: 1920 x 1080, scaled to fit.
+   ============================================================ */
+
+:root {
+  /* --- accent --- */
+  --green:        #2f6fed;  /* accent: eyebrows, badges, arrows, rules */
+  --green-light:  #7aa5f7;
+  --green-pale:   #c9dafc;
+  --mint-card:    #e7eefc;  /* tinted card fill */
+  --teal-card:    #e2f0ec;  /* alternate tinted card fill */
+
+  /* --- text and filled cards --- */
+  --ink:          #161b26;  /* headings */
+  --ink-soft:     #2d3442;
+  --brown-card:   #1e2a44;  /* filled card background */
+  --brown-deep:   #24324f;
+  --brown-soft:   #5b6475;
+  --muted:        #667085;  /* dek / secondary copy */
+
+  /* --- labels and soft fills --- */
+  --tan:          #b8c4dd;  /* labels on filled cards */
+  --tan-warm:     #e9a23b;  /* stat labels, second accent */
+  --tan-pale:     #f7ecd8;
+  --cream:        #f1efea;
+  --greige:       #e9e8e4;
+
+  /* --- grounds --- */
+  --ground:       #f8f8f6;  /* default slide background */
+  --ground-warm:  #fcfbf8;  /* quiet alternate */
+  /* Separate tokens for the dark backgrounds: a dark slide remaps --ink and
+     --green for its own text, so it can't also read its background from them. */
+  --ground-brown: #1e2a44;
+  --ground-ink:   #10141d;
+
+  /* --- type --- */
+  --display: "DM Sans", "Avenir Next", system-ui, sans-serif;
+  --body:    "Inter", "Helvetica Neue", system-ui, sans-serif;
+
+  /* --- geometry --- */
+  --radius:      28px;
+  --radius-sm:   18px;
+  --pad-x:       110px;
+  --pad-y:       92px;
+}
+
+/* ============================================================
+   Slide canvas
+   ============================================================ */
+
+.slide {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  flex: none;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  padding: var(--pad-y) var(--pad-x);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+.slide[data-ground="warm"]  { background: var(--ground-warm); }
+.slide[data-ground="cream"] { background: var(--cream); }
+
+/* Full-bleed dark slides: label-coloured kicker, near-white headline,
+   label-coloured dek.
+
+   These remap the tokens rather than colouring each element directly, so a
+   per-slide override still lands. Colouring `.s-title` here would outrank an
+   inline `--ink` and silently do nothing. */
+.slide[data-ground="brown"],
+.slide[data-ground="ink"] {
+  color: #fffaf5;
+  --ink: #fffaf5;
+  --muted: var(--tan);
+  --green: var(--tan-warm);
+  --brown-soft: var(--tan);
+}
+.slide[data-ground="brown"] { background: var(--ground-brown); }
+.slide[data-ground="ink"]   { background: var(--ground-ink); }
+.slide[data-ground="brown"] .s-foot,
+.slide[data-ground="ink"]   .s-foot { color: var(--tan); }
+
+/* --- shared header block --- */
+
+.s-eyebrow {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 30px;
+  color: var(--green);
+  margin-bottom: 14px;
+  letter-spacing: 0.01em;
+}
+
+.s-title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 68px;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.s-dek {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 31px;
+  line-height: 1.34;
+  color: var(--muted);
+  margin-top: 24px;
+  max-width: 1540px;
+}
+
+/* Editable text is stored as plain text, so a typed line break has to survive
+   rendering. pre-line keeps newlines and still collapses runs of spaces. */
+.s-dek, .card-body, .stat-caption, .pillrow-text,
+.bullet-body, .led-sub, .led-note { white-space: pre-line; }
+
+.s-head { flex: none; }
+
+/* The region below the header that holds layout content.
+   flex-start, not stretch: content hugs the top and the slide keeps the
+   open lower third the deck style relies on, instead of cards ballooning
+   to fill whatever height is left. */
+.s-body {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  min-height: 0;
+  margin-top: 64px;
+}
+
+.s-foot {
+  flex: none;
+  margin-top: 40px;
+  font-family: var(--body);
+  font-weight: 700;
+  font-size: 27px;
+  color: var(--ink);
+}
+
+.s-foot[data-accent="green"] {
+  color: var(--green);
+  font-style: italic;
+  border-top: 2px solid var(--greige);
+  padding-top: 32px;
+}
+
+/* ============================================================
+   Cards
+   ============================================================ */
+
+.card {
+  border-radius: var(--radius);
+  padding: 40px 44px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-height: 0;
+}
+
+.card-label {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.card-body {
+  font-family: var(--body);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1.42;
+}
+
+/* brown filled card — "Problem Statement" treatment */
+.card[data-variant="brown"] {
+  background: var(--brown-card);
+  border: 1.5px solid var(--brown-deep);
+}
+.card[data-variant="brown"] .card-label {
+  color: var(--tan);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 26px;
+}
+.card[data-variant="brown"] .card-body { color: #fffaf5; }
+
+/* mint tinted card */
+.card[data-variant="mint"] {
+  background: var(--mint-card);
+  border: 2px solid var(--green);
+}
+.card[data-variant="mint"] .card-label { color: var(--brown-deep); }
+.card[data-variant="mint"] .card-body  { color: var(--brown-deep); }
+
+/* outlined card — mint border, ground fill */
+.card[data-variant="outline"] {
+  background: transparent;
+  border: 2px solid var(--green);
+}
+.card[data-variant="outline"] .card-label { color: var(--brown-deep); }
+.card[data-variant="outline"] .card-body  { color: var(--brown-deep); }
+
+/* teal tinted card */
+.card[data-variant="teal"] {
+  background: var(--teal-card);
+  border: 2px solid var(--green);
+}
+.card[data-variant="teal"] .card-label { color: var(--brown-deep); }
+.card[data-variant="teal"] .card-body  { color: var(--brown-deep); }
+
+/* cream card */
+.card[data-variant="cream"] {
+  background: var(--greige);
+  border: 1.5px solid var(--tan-pale);
+}
+.card[data-variant="cream"] .card-label { color: var(--ink); }
+.card[data-variant="cream"] .card-body  { color: var(--ink-soft); }
+
+.card-bullets {
+  font-family: var(--body);
+  font-size: 26px;
+  line-height: 1.42;
+  margin: 0;
+  padding-left: 1.15em;
+}
+.card-bullets li { margin-bottom: 12px; }
+.card-bullets li::marker { color: currentColor; }
+
+/* ============================================================
+   Layout: cover
+   ============================================================ */
+
+.slide[data-layout="cover"] { justify-content: center; }
+.slide[data-layout="cover"] .s-body { margin-top: 0; align-items: center; gap: 80px; }
+
+.cover-copy { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.cover-logo { height: 96px; margin-bottom: 64px; align-self: flex-start; }
+.cover-logo img { height: 100%; display: block; }
+.cover-logo-text {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 88px;
+  line-height: 96px;
+  letter-spacing: -0.035em;
+  color: var(--green);
+}
+.slide[data-layout="cover"] .s-title { font-size: 92px; line-height: 1.02; }
+.slide[data-layout="cover"] .s-dek   { font-weight: 500; font-size: 34px; color: var(--brown-soft); max-width: 900px; }
+
+.cover-art { flex: none; width: 760px; display: flex; align-items: center; justify-content: center; }
+.cover-art img { max-width: 100%; max-height: 700px; object-fit: contain; }
+.cover-art:empty { display: none; }
+
+/* ============================================================
+   Layout: section divider
+   ============================================================ */
+
+.slide[data-layout="section"] { justify-content: center; align-items: flex-start; }
+.slide[data-layout="section"] .s-body { display: none; }
+.slide[data-layout="section"] .s-title { font-size: 104px; max-width: 1500px; }
+.slide[data-layout="section"] .s-eyebrow { font-size: 34px; margin-bottom: 22px; }
+.slide[data-layout="section"] .s-dek { font-size: 34px; font-weight: 500; }
+
+/* ============================================================
+   Layout: statement
+   ============================================================ */
+
+.slide[data-layout="statement"] { justify-content: center; align-items: center; text-align: center; }
+.slide[data-layout="statement"] .s-body { display: none; }
+.slide[data-layout="statement"] .s-title { font-size: 88px; max-width: 1560px; line-height: 1.12; }
+.slide[data-layout="statement"] .s-dek { margin-left: auto; margin-right: auto; text-align: center; }
+
+/* ============================================================
+   Layout: cards  (N-up grid, auto 2 or 3 columns)
+   ============================================================ */
+
+.grid {
+  display: grid;
+  gap: 40px;
+  width: 100%;
+  align-content: start;
+}
+.grid[data-cols="1"] { grid-template-columns: 1fr; }
+.grid[data-cols="2"] { grid-template-columns: repeat(2, 1fr); }
+.grid[data-cols="3"] { grid-template-columns: repeat(3, 1fr); }
+.grid[data-cols="4"] { grid-template-columns: repeat(4, 1fr); }
+.grid[data-cols="4"] .card { padding: 32px 30px; }
+.grid[data-cols="4"] .card-label { font-size: 25px; }
+.grid[data-cols="4"] .card-body  { font-size: 22px; }
+
+/* ============================================================
+   Layout: columns  (bullets + optional pinned stat badge)
+   ============================================================ */
+
+.col-card { position: relative; padding-bottom: 74px; }
+
+.stat-badge {
+  position: absolute;
+  right: 26px;
+  bottom: -26px;
+  background: var(--green);
+  color: #fff;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 46px;
+  line-height: 1;
+  padding: 22px 34px;
+  border-radius: 22px;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   Layout: numbered  (green numeral + label, then that group's cards)
+   ============================================================ */
+
+.numbered { display: grid; gap: 56px; width: 100%; align-items: start; }
+.numbered[data-cols="2"] { grid-template-columns: repeat(2, 1fr); }
+.numbered[data-cols="3"] { grid-template-columns: repeat(3, 1fr); }
+
+.num-group { display: flex; flex-direction: column; min-height: 0; }
+.num-head { display: flex; align-items: center; gap: 20px; margin-bottom: 32px; }
+.num-dot {
+  flex: none;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--green);
+  color: #fff;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 28px;
+  display: flex; align-items: center; justify-content: center;
+}
+.num-label {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 36px;
+  color: var(--muted);
+  line-height: 1.15;
+}
+.num-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; align-content: start; }
+.num-cards .card { padding: 32px 30px; }
+.num-cards .card-label { font-size: 27px; margin-bottom: 16px; }
+.num-cards .card-body  { font-size: 23px; }
+
+/* ============================================================
+   Layout: flow  (cards joined by green arrows)
+   ============================================================ */
+
+.flow { display: flex; align-items: stretch; gap: 0; width: 100%; }
+/* min-height keeps the three stages substantial without stretching to the
+   full slide; they still equalise to the tallest via align-items: stretch. */
+.flow .card { flex: 1; min-width: 0; min-height: 400px; }
+.flow .card-label { font-size: 40px; line-height: 1.12; }
+.flow .card[data-variant="brown"] .card-label {
+  text-transform: none; letter-spacing: -0.01em; color: #fffaf5; font-size: 40px;
+}
+.flow .card[data-variant="brown"] .card-body { color: var(--tan); font-weight: 600; }
+.flow-arrow {
+  flex: none;
+  width: 96px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--green);
+}
+.flow-arrow svg { width: 60px; height: 60px; }
+
+/* ============================================================
+   Layout: stats  (big numerals)
+   ============================================================ */
+
+/* Grid rather than flex, with .stat transparent to layout, so labels, numerals
+   and captions each share a row. Otherwise a label that wraps to two lines
+   drops its numeral below its neighbours' and the baseline breaks. */
+.stats {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  grid-template-rows: auto auto auto;
+  column-gap: 90px;
+  width: 100%;
+}
+.stat { display: contents; }
+.stat-label {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 30px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--green);
+  margin-bottom: 18px;
+  align-self: end;
+}
+.stat-value {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 128px;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  margin-bottom: 22px;
+}
+.stat-caption {
+  font-family: var(--body);
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1.34;
+  color: var(--muted);
+}
+
+/* Scale type to the number of columns so a numeral never wraps. */
+.stats[data-n="2"] { column-gap: 140px; }
+.stats[data-n="2"] .stat-value { font-size: 156px; }
+.stats[data-n="4"] { column-gap: 62px; }
+.stats[data-n="4"] .stat-value   { font-size: 92px; }
+.stats[data-n="4"] .stat-label   { font-size: 25px; letter-spacing: 0.15em; }
+.stats[data-n="4"] .stat-caption { font-size: 25px; }
+.stats[data-n="5"] { column-gap: 48px; }
+.stats[data-n="5"] .stat-value   { font-size: 74px; }
+.stats[data-n="5"] .stat-label   { font-size: 22px; letter-spacing: 0.12em; }
+.stats[data-n="5"] .stat-caption { font-size: 23px; }
+
+/* ============================================================
+   Layout: pillrows  (green pill -> arrow -> description)
+   ============================================================ */
+
+.pillrows { display: flex; flex-direction: column; gap: 34px; width: 100%; }
+.pillrow { display: flex; align-items: center; gap: 34px; }
+.pill {
+  flex: none;
+  width: 430px;
+  background: var(--mint-card);
+  border: 2px solid var(--green);
+  border-radius: 999px;
+  padding: 20px 34px;
+  text-align: center;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 30px;
+  color: var(--ink);
+}
+.pillrow-arrow { flex: none; color: var(--brown-card); display: flex; align-items: center; }
+.pillrow-arrow svg { width: 52px; height: 52px; }
+.pillrow-text {
+  flex: 1;
+  font-family: var(--body);
+  font-size: 28px;
+  line-height: 1.38;
+  color: var(--brown-deep);
+}
+
+/* ============================================================
+   Layout: bullets  (simple list)
+   ============================================================ */
+
+.bullets { display: flex; flex-direction: column; gap: 30px; width: 100%; }
+.bullet-row { display: flex; gap: 24px; align-items: baseline; }
+.bullet-dot {
+  flex: none; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--green); transform: translateY(-4px);
+}
+.bullet-label {
+  font-family: var(--display); font-weight: 700; font-size: 30px; color: var(--ink);
+}
+.bullet-body {
+  font-family: var(--body); font-size: 28px; line-height: 1.4; color: var(--muted);
+}
+
+/* ============================================================
+   Layout: quote
+   ============================================================ */
+
+.slide[data-layout="quote"] { justify-content: center; }
+.slide[data-layout="quote"] .s-body { display: none; }
+.slide[data-layout="quote"] .s-title {
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 62px;
+  line-height: 1.3;
+  max-width: 1500px;
+  border-left: 8px solid var(--green);
+  padding-left: 48px;
+}
+.slide[data-layout="quote"] .s-dek { padding-left: 56px; color: var(--brown-soft); }
+
+/* ============================================================
+   Layout: mapping  (two pill columns joined by one big arrow)
+   ============================================================ */
+
+.mapping {
+  display: grid;
+  grid-template-columns: 1fr 150px 1fr;
+  width: 100%;
+  align-items: start;
+}
+.map-col { display: flex; flex-direction: column; gap: 26px; }
+.map-head {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 30px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--green);
+  text-align: center;
+  margin-bottom: 6px;
+}
+.map-pill {
+  border-radius: 999px;
+  padding: 20px 30px;
+  text-align: center;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 30px;
+  background: var(--mint-card);
+  border: 2px solid var(--green);
+  color: var(--ink);
+}
+.map-pill[data-state="solid"] { background: var(--green); border-color: var(--green); color: #fff; }
+.map-pill[data-state="ghost"] {
+  background: transparent;
+  border: 2px dashed var(--brown-soft);
+  color: var(--brown-soft);
+}
+.map-arrow {
+  align-self: center;
+  color: var(--tan-warm);
+  display: flex; align-items: center; justify-content: center;
+  padding-top: 60px;
+}
+.map-arrow svg { width: 96px; height: 96px; }
+
+/* ============================================================
+   Layout: cycle  (six numbered steps in a closed loop)
+   ============================================================ */
+
+.cycle {
+  display: grid;
+  grid-template-columns: 1fr 92px 1fr 92px 1fr;
+  grid-template-rows: auto 76px auto;
+  width: 100%;
+  align-items: center;
+  justify-items: center;
+}
+.cycle .card {
+  width: 100%;
+  min-height: 210px;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  padding: 34px 30px;
+}
+.cycle .card-label { font-size: 30px; margin-bottom: 0; line-height: 1.22; }
+.cycle-n {
+  position: absolute;
+  top: 18px; left: 22px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 26px;
+  color: var(--brown-deep);
+  opacity: 0.75;
+}
+.cycle-arrow { color: var(--green-light); display: flex; }
+.cycle-arrow svg { width: 62px; height: 62px; }
+
+/* ============================================================
+   Layout: ledger  (two columns of line items with amounts)
+   ============================================================ */
+
+.ledger { display: grid; grid-template-columns: 1fr 1fr; gap: 76px; width: 100%; align-items: start; }
+.led-col { display: flex; flex-direction: column; }
+.led-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-bottom: 22px;
+}
+.led-head-label {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 26px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--tan-warm);
+}
+.led-head-meta { font-family: var(--body); font-size: 25px; color: var(--muted); }
+
+.led-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 26px; padding: 20px 26px;
+}
+/* Left column reads as filled cards, right column as a ruled table —
+   the two treatments in the pre-seed "Ask" slide. */
+.led-col[data-style="filled"] .led-row {
+  background: var(--mint-card);
+  border-radius: var(--radius-sm);
+  margin-bottom: 14px;
+}
+.led-col[data-style="filled"] .led-row:nth-child(even) { background: color-mix(in srgb, var(--mint-card) 55%, white); }
+.led-col[data-style="ruled"] .led-row { border-bottom: 1.5px solid var(--greige); }
+.led-col[data-style="ruled"] .led-row[data-highlight="1"] {
+  background: var(--mint-card);
+  border-radius: var(--radius-sm);
+  border-bottom: 0;
+}
+.led-label { font-family: var(--display); font-weight: 700; font-size: 28px; color: var(--ink); }
+.led-sub   { font-family: var(--body); font-size: 24px; color: var(--muted); margin-top: 3px; }
+.led-value {
+  flex: none;
+  font-family: var(--display); font-weight: 700; font-size: 30px; color: var(--ink);
+  white-space: nowrap;
+}
+.led-note {
+  font-family: var(--body); font-size: 24px; line-height: 1.36;
+  color: var(--muted); margin-top: 18px; font-style: italic;
+}
+.led-col[data-style="filled"] .led-note { font-style: normal; }
+
+/* ============================================================
+   Layout: diagram  (typed node chain, optional feedback loop)
+
+   Node kind drives colour, and the legend is generated from the kinds
+   actually used — so it can never disagree with the diagram.
+   ============================================================ */
+
+.diagram { display: flex; flex-direction: column; gap: 34px; width: 100%; }
+
+.dgm-legend { display: flex; gap: 36px; align-items: center; }
+.dgm-legend-item {
+  display: flex; align-items: center; gap: 11px;
+  font-family: var(--body); font-size: 24px; color: var(--ink);
+}
+.dgm-swatch {
+  width: 22px; height: 22px; border-radius: 6px;
+  border: 2px solid transparent; flex: none;
+}
+
+/* Tight, because the drop connector supplies the visual gap between rows. */
+.dgm-rows { display: flex; flex-direction: column; gap: 28px; }
+.dgm-row { display: flex; align-items: stretch; }
+/* Even rows run right-to-left so a long chain serpentines instead of
+   overflowing. Arrows are flipped to match in the renderer. */
+.dgm-row[data-dir="rtl"] { flex-direction: row-reverse; }
+
+/* stretch, not flex-start: nodes take their column's full width so a row reads
+   as a grid rather than as boxes sized to whatever text they happen to hold. */
+.dgm-cell { display: flex; flex-direction: column; align-items: stretch; flex: 1 1 0; }
+.dgm-spacer { flex: 1 1 0; }
+.dgm-chip {
+  font-family: var(--display); font-weight: 700;
+  font-size: 20px; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 7px 16px; border-radius: 999px;
+  margin-bottom: 12px; align-self: center;
+  white-space: nowrap;
+}
+.dgm-chip:empty { visibility: hidden; }
+
+.dgm-node {
+  flex: 1;
+  border-radius: 20px;
+  padding: 26px 30px;
+  display: flex; flex-direction: column; justify-content: center;
+  text-align: center;
+  min-height: 118px;
+  box-sizing: border-box;
+}
+.dgm-label {
+  font-family: var(--display); font-weight: 700;
+  font-size: 34px; line-height: 1.18;
+}
+.dgm-sub {
+  font-family: var(--body); font-size: 24px; line-height: 1.32;
+  margin-top: 8px; opacity: 0.82;
+}
+
+/* --- node kinds --- */
+
+.dgm-node[data-kind="input"],     .dgm-swatch[data-kind="input"]     { background: var(--greige); border-color: var(--greige); }
+.dgm-node[data-kind="output"],    .dgm-swatch[data-kind="output"]    { background: var(--greige); border-color: var(--greige); }
+.dgm-node[data-kind="automation"],.dgm-swatch[data-kind="automation"]{ background: var(--ground-warm); border: 2px solid var(--greige); }
+.dgm-node[data-kind="agent"],     .dgm-swatch[data-kind="agent"]     { background: var(--green-light); border: 2px solid var(--green); }
+.dgm-node[data-kind="human"],     .dgm-swatch[data-kind="human"]     { background: var(--ink); border-color: var(--ink); }
+.dgm-node[data-kind="accent"],    .dgm-swatch[data-kind="accent"]    { background: var(--mint-card); border: 2px solid var(--green); }
+
+.dgm-node[data-kind="input"], .dgm-node[data-kind="output"],
+.dgm-node[data-kind="automation"], .dgm-node[data-kind="agent"],
+.dgm-node[data-kind="accent"] { color: var(--ink); }
+.dgm-node[data-kind="human"]  { color: #fffaf5; }
+
+.dgm-chip[data-kind="input"], .dgm-chip[data-kind="output"] { background: var(--greige); color: var(--brown-deep); }
+.dgm-chip[data-kind="automation"] { background: var(--ground-warm); border: 1.5px solid var(--greige); color: var(--brown-deep); }
+.dgm-chip[data-kind="agent"] { background: var(--green-light); color: var(--brown-deep); }
+.dgm-chip[data-kind="human"] { background: var(--ink); color: #fffaf5; }
+.dgm-chip[data-kind="accent"] { background: var(--mint-card); color: var(--brown-deep); }
+
+/* --- connectors --- */
+
+/* Vertical connector between serpentine rows, sat under the column the path
+   exits from — without it two rows read as two separate chains. */
+.dgm-drop { display: flex; margin: -18px 0; }
+.dgm-drop[data-side="right"] { justify-content: flex-end; padding-right: calc(100% / var(--n) / 2); }
+.dgm-drop[data-side="left"]  { justify-content: flex-start; padding-left: calc(100% / var(--n) / 2); }
+.dgm-drop svg {
+  width: 40px; height: 40px;
+  color: var(--brown-soft);
+  transform: rotate(90deg) translateX(-12px);
+}
+
+.dgm-arrow {
+  flex: none; width: 78px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--brown-soft);
+  align-self: center;
+}
+.dgm-arrow svg { width: 44px; height: 44px; }
+.dgm-row[data-dir="rtl"] .dgm-arrow svg { transform: rotate(180deg); }
+
+/* The return path on a loop: a dashed rule spanning the diagram with the
+   arrowhead on the left, so "output feeds input" reads without tracing it. */
+/* Track and caption stack, rather than sitting inline — inline, the rule and
+   the italic text share a vertical centre and it reads as a strikethrough. */
+.dgm-return { display: flex; flex-direction: column; gap: 6px; }
+.dgm-return-track {
+  display: flex; align-items: center; gap: 14px;
+  color: var(--brown-soft);
+}
+.dgm-return-track svg { width: 40px; height: 40px; flex: none; transform: rotate(180deg); }
+.dgm-return-line {
+  flex: 1; height: 0;
+  border-top: 3px dashed var(--brown-soft);
+  opacity: 0.55;
+}
+/* Label sits after the line, not between two of them — centring it inline put
+   the dashes straight through the text. */
+.dgm-return-label {
+  font-family: var(--body); font-size: 22px; font-style: italic;
+  color: var(--muted);
+  text-align: right;
+}
+
+/* A wrapped diagram has roughly twice the vertical demand, so the nodes give
+   back some height rather than pushing the footer off the slide. */
+.dgm-rows:has(.dgm-drop) .dgm-node { min-height: 86px; padding: 18px 26px; }
+.dgm-rows:has(.dgm-drop) .dgm-chip { margin-bottom: 9px; }
+
+/* Denser type once a row carries more than four nodes. */
+.dgm-row[data-n="5"] .dgm-label, .dgm-row[data-n="6"] .dgm-label { font-size: 29px; }
+.dgm-row[data-n="5"] .dgm-sub,   .dgm-row[data-n="6"] .dgm-sub   { font-size: 21px; }
+.dgm-row[data-n="5"] .dgm-arrow, .dgm-row[data-n="6"] .dgm-arrow { width: 56px; }
+.dgm-row[data-n="5"] .dgm-node,  .dgm-row[data-n="6"] .dgm-node  { padding: 22px 20px; }
+
+/* ============================================================
+   Page number
+   ============================================================ */
+
+.page-num {
+  position: absolute;
+  right: var(--pad-x);
+  bottom: 46px;
+  font-family: var(--body);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--brown-soft);
+  opacity: 0.6;
+}
+.slide[data-layout="cover"] .page-num,
+.slide[data-layout="section"] .page-num,
+.slide[data-layout="statement"] .page-num { display: none; }
